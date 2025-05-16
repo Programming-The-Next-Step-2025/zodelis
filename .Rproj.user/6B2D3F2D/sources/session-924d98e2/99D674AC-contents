@@ -25,46 +25,6 @@
 #'@export
 start_game <- function() {
   print("Welcome to WORDLE. Type in your guess:")
-<<<<<<< Updated upstream
-=======
-}
-
-#' Check whether the guessed word is exactly 5 letters long.
-#'
-#' @details Checks whether the guessed word is exactly 5 letters long.
-#' @examples
-#' check_length(x)
-#'
-#' # You can call the function like this:
-#' # check_length("labas")
-#' # The function will return "Nice guess. Loading feedback."
-#'
-#' @return Either:
-#'   "Your guessed word is too long. Try again."
-#'   or
-#'   "Your guessed word is too short. Try again."
-#'   or
-#'   "Nice guess. Loading feedback."
-#'@export
-check_length <- function(x) {
-  if (nchar(x) > 5) {
-    print("Your guessed word is too long. Try again.")
-  } else if (nchar(x) < 5) {
-    print("Your guessed word is too short. Try again.")
-  } else {
-    print("Nice guess. Loading feedback.")
-  }
-}
-
-#' Show a notification for a correct guess
-#'
-#' @return A notification "Correct guess!".
-#' @export
-#' @examples
-#' if (interactive()) show_feedback()
-show_feedback <- function() {
-  shiny::showNotification("Correct guess!", type = "Correct guess!")
->>>>>>> Stashed changes
 }
 
 #' Check whether the guessed word is exactly 5 letters long.
