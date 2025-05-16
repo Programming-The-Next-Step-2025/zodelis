@@ -24,7 +24,11 @@ Checks whether the guessed word is exactly 5 letters long.
 check_length(x)
 
 # You can call the function like this:
+<<<<<<< Updated upstream
 # check_length(labas)
+=======
+# check_length("labas")
+>>>>>>> Stashed changes
 # The function will return "Nice guess. Loading feedback."
 
 }
