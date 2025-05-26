@@ -1,26 +1,26 @@
 {
-    "id": "5BDA1742",
-    "path": "~/GitHub/zodelis/R/hello.R",
-    "project_path": "R/hello.R",
+    "id": "6B039F66",
+    "path": "~/GitHub/zodelis/R/data.R",
+    "project_path": "R/data.R",
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1747399716164.0,
+    "created": 1748298838742.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "53,3",
+        "cursorPosition": "7,28",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1747400507,
+    "lastKnownWriteTime": 1748298896,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1747400507,
+    "last_content_update": 1748298896198,
     "read_only": false,
     "read_only_alternatives": []
 }
