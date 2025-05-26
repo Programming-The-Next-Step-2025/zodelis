@@ -1,6 +1,6 @@
 #' Lithuanian 5-letter word list
 #'
-#' A character vector containing all valid 5-letter Lithuanian words.
+#' A character vector containing valid 5-letter Lithuanian words.
 #'
 #' @docType data
 #' @name words_lt

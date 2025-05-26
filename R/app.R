@@ -94,6 +94,9 @@ ui <- fluidPage(
   uiOutput("feedback_ui"),
   textOutput("status")
 )
+data("words_lt")
+# Pick a random target word
+target_word <- sample(words_lt, 1)
 
 #' Server logic for Žodelis.
 #'
@@ -108,11 +111,6 @@ ui <- fluidPage(
 #'
 #' @export
 server <- function(input, output, session) {
-  words_lt <- readRDS("data/words_lt.rds")
-
-  # Pick a random target word
-  target_word <- sample(words_lt, 1)
-
   values <- reactiveValues(
     guesses = list(),
     solved = FALSE

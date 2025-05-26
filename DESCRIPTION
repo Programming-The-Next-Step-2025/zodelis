@@ -17,3 +17,5 @@ LazyData: true
 RoxygenNote: 7.3.2
 Imports: 
     shiny
+Depends: 
+    R (>= 3.5)
