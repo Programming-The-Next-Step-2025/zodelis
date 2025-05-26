@@ -113,7 +113,6 @@ server <- function(input, output, session) {
     guesses = list(),
     solved = FALSE
   )
-  data("words_lt", package = "zodelis")
   # Pick a random target word
   target_word <- sample(words_lt, 1)
   observeEvent(input$submit, {
