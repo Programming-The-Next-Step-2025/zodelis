@@ -1,0 +1,14 @@
+#' Launch the Lithuanian Wordle Shiny App
+#'
+#' This function launches the Lithuanian version of the Wordle game built in Shiny.
+#'
+#' @export
+#' #' @examples
+#' launch_zodelis()
+launch_zodelis <- function() {
+  appDir <- system.file("app", package = "zodelis")  # This will point to inst/app/ directory
+  shiny::runApp(appDir, display.mode = "normal")
+}
+
+launch_zodelis()
+
