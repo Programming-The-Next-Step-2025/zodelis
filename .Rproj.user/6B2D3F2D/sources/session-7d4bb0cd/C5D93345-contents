@@ -9,6 +9,3 @@ launch_zodelis()
 \description{
 This function launches the Lithuanian version of the Wordle game built in Shiny.
 }
-\examples{
-launch_zodelis()
-}

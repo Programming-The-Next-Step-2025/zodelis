@@ -1,6 +1,21 @@
+#' Zodelis (Lithuanian version of Wordle)
+#'
+#' A lithuanian version of the famous New York Times game 'Wordle'.
+#' A shiny app.
+#' @docType package
+#' @name zodelis
+
 library(shiny)
 
-# Load Lithuanian 5-letter words
+#' Load the list of lithuanian 5-letter words.
+#'
+#' A character vector that contains 5-letter lithuanian words.
+#'
+#' @docType data
+#' @name words_lt
+#' @format character vector
+#' @source data/words_lt.rds
+#' @keywords data
 words_lt <- readRDS("data/words_lt.rds")
 
 # Pick a random target word
@@ -93,7 +108,7 @@ server <- function(input, output, session) {
       return()
     }
     if (!(guess %in% words_lt)) {
-      output$status <- renderText(paste("Nerastas toks žodis. Bandykite kitą.", target_word, sep=" "))
+      output$status <- renderText("Nerastas toks žodis. Bandykite kitą.")
       return()
     }
 
@@ -109,7 +124,7 @@ server <- function(input, output, session) {
       tagList(values$guesses)
     })
 
-    output$status <- renderText(if (values$solved) "Teisingai!" else paste("Bandykite dar kartą.", target_word, sep=" "))
+    output$status <- renderText(if (values$solved) "Teisingai!" else "Bandykite dar kartą.")
   })
 }
 
