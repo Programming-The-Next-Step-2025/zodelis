@@ -125,6 +125,12 @@ server <- function(input, output, session) {
       output$status <- renderText("Žodis turi būti iš 5 raidžių.")
       return()
     }
+
+    if (length(values$guesses) > 5) {
+      output$status <- renderText("Turite tik šešis spėjimus. Ate!")
+      return()
+    }
+
     if (!(guess %in% words_lt)) {
       output$status <- renderText("Tokio žodžio nėra. Bandykite kitą.")
       return()
