@@ -5,7 +5,7 @@
 #' @examples
 #' launch_zodelis()
 launch_zodelis <- function() {
-  appDir <- system.file("app", package = "zodelis")  # This will point to inst/app/ directory
-  shiny::runApp(appDir, display.mode = "normal")
+  app <- shiny::shinyApp(ui, server)
+  shiny::runApp(app, display.mode = "normal")
 }
 

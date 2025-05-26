@@ -7,21 +7,18 @@
 
 library(shiny)
 
-#' Load the list of lithuanian 5-letter words.
+#' Create feedback tiles.
 #'
-#' A character vector that contains 5-letter lithuanian words.
+#' Generates colored feedback tiles to indicate whether the letters are
+#' correct, present, or wrong.
 #'
-#' @docType data
-#' @name words_lt
-#' @format character vector
-#' @source data/words_lt.rds
-#' @keywords data
-words_lt <- readRDS("data/words_lt.rds")
-
-# Pick a random target word
-target_word <- sample(words_lt, 1)
-
-# Function to generate colored feedback tiles
+#' @param guess A 5-character string representing the user's guessed word.
+#' @param target A 5-character string representing the target word.
+#' @return A Shiny object containing the feedback tiles.
+#' @examples
+#' create_feedback_tiles("labas", "batas")
+#'
+#' @export
 create_feedback_tiles <- function(guess, target) {
   guess_letters <- strsplit(guess, "")[[1]]
   target_letters <- strsplit(target, "")[[1]]
@@ -62,7 +59,14 @@ create_feedback_tiles <- function(guess, target) {
   HTML(paste0('<div class="tile-row">', html, '</div>'))
 }
 
-# UI
+#' UI definition for Zodelis.
+#'
+#' Shiny UI layout including input, action button and feedback.
+#'
+#' @examples
+#' shinyApp(ui, server)
+#'
+#' @export
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
@@ -83,7 +87,7 @@ ui <- fluidPage(
       .gray { background-color: #787c7e; }
     "))
   ),
-  titlePanel("Lietuviškas Wordle"),
+  titlePanel("Žodelis"),
   textInput("guess", "Įveskite 5 raidžių žodį:", value = ""),
   actionButton("submit", "Spėti"),
   br(), br(),
@@ -91,8 +95,24 @@ ui <- fluidPage(
   textOutput("status")
 )
 
-# Server
+#' Server logic for Žodelis.
+#'
+#' Processes user guesses, updates tile feedback and shows notifications.
+#'
+#' @param input Shiny input object
+#' @param output Shiny output object
+#' @param session Shiny session object
+#' @return None
+#' @examples
+#' shinyApp(ui, server)
+#'
+#' @export
 server <- function(input, output, session) {
+  words_lt <- readRDS("data/words_lt.rds")
+
+  # Pick a random target word
+  target_word <- sample(words_lt, 1)
+
   values <- reactiveValues(
     guesses = list(),
     solved = FALSE
@@ -108,7 +128,7 @@ server <- function(input, output, session) {
       return()
     }
     if (!(guess %in% words_lt)) {
-      output$status <- renderText("Nerastas toks žodis. Bandykite kitą.")
+      output$status <- renderText("Tokio žodžio nėra. Bandykite kitą.")
       return()
     }
 

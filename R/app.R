@@ -63,6 +63,9 @@ create_feedback_tiles <- function(guess, target) {
 #'
 #' Shiny UI layout including input, action button and feedback.
 #'
+#' @examples
+#' shinyApp(ui, server)
+#'
 #' @export
 ui <- fluidPage(
   tags$head(

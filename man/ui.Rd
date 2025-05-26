@@ -13,4 +13,8 @@ ui
 \description{
 Shiny UI layout including input, action button and feedback.
 }
+\examples{
+shinyApp(ui, server)
+
+}
 \keyword{datasets}
