@@ -114,6 +114,7 @@ server <- function(input, output, session) {
     solved = FALSE
   )
   # Pick a random target word
+  data("words_lt", package = "zodelis")
   target_word <- sample(words_lt, 1)
   observeEvent(input$submit, {
     req(input$guess)
