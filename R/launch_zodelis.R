@@ -6,6 +6,7 @@
 #' launch_zodelis()
 launch_zodelis <- function() {
   app <- shiny::shinyApp(ui, server)
+
   shiny::runApp(app, display.mode = "normal")
 }
 
