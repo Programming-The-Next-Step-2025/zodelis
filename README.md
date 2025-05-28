@@ -10,3 +10,10 @@ if you guessed any letter and location right. Based on this feedback
 you can continue guessing until you (hopefully) get it right!
 
 Could be a (extremely difficult) way to learn lithuanian.
+
+Software to be installed before use:
+- RStudio
+- Shiny
+
+Use this function to launch the game:
+launch_zodelis()
