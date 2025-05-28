@@ -1,7 +1,13 @@
-<<<<<<< Updated upstream
-~%2FGitHub%2Fzodelis%2FR%2Fhello.R="A406D31E"
-=======
+="======"
+~%2FGitHub%2Fzodelis%2F.Rbuildignore="42805675"
 ~%2FGitHub%2Fzodelis%2FDESCRIPTION="4D5A483F"
 ~%2FGitHub%2Fzodelis%2FNAMESPACE="8FFD1D89"
-~%2FGitHub%2Fzodelis%2FR%2Fhello.R="AB26DDFD"
->>>>>>> Stashed changes
+~%2FGitHub%2Fzodelis%2FR%2Fapp.R="E7C48B70"
+~%2FGitHub%2Fzodelis%2FR%2Fdata.R="59A0CDD1"
+~%2FGitHub%2Fzodelis%2FR%2Fhello.R="A406D31E"
+~%2FGitHub%2Fzodelis%2FR%2Fhelpers.R="CAFE5C5F"
+~%2FGitHub%2Fzodelis%2FR%2Finst%2Fapp%2Fapp.R="44B5EC08"
+~%2FGitHub%2Fzodelis%2FR%2Flaunch_zodelis.R="09942EAB"
+~%2FGitHub%2Fzodelis%2Finst%2Fapp%2Fapp.R="8BECCD5E"
+~%2FGitHub%2Fzodelis%2Fman%2Fcheck_length.Rd="FB20F419"
+~%2FGitHub%2Fzodelis%2Fman%2Flaunch_zodelis.Rd="D207BFA9"

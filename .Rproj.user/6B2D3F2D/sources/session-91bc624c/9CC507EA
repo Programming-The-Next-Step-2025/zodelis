@@ -1,0 +1,26 @@
+{
+    "id": "9CC507EA",
+    "path": "~/GitHub/zodelis/R/app.R",
+    "project_path": "R/app.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1748299593406.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "128,34",
+        "scrollLine": "126"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1748301494,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1748301494326,
+    "read_only": false,
+    "read_only_alternatives": []
+}
