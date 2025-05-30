@@ -70,7 +70,8 @@ create_feedback_tiles <- function(guess, target) {
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
-      .tile-row { display: flex; margin-bottom: 5px; }
+      body { text-align: center; }
+      .tile-row { display: flex; justify-content: center; margin-bottom: 5px; }
       .tile {
         width: 40px; height: 40px;
         border: 2px solid #999;
@@ -87,11 +88,14 @@ ui <- fluidPage(
       .gray { background-color: #787c7e; }
     "))
   ),
-  titlePanel("Žodelis"),
-  uiOutput("input_ui"),
-  br(), br(),
-  uiOutput("feedback_ui"),
-  textOutput("status")
+  div(
+    style = "display: inline-block; text-align: center; margin-top: 30px;",
+    titlePanel("Žodelis"),
+    uiOutput("input_ui"),
+    br(), br(),
+    uiOutput("feedback_ui"),
+    textOutput("status")
+  )
 )
 
 #' Server logic for Žodelis.
