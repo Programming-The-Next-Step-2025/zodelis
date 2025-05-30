@@ -88,13 +88,11 @@ ui <- fluidPage(
     "))
   ),
   titlePanel("Žodelis"),
-  textInput("guess", "Įveskite 5 raidžių žodį:", value = ""),
-  actionButton("submit", "Spėti"),
+  uiOutput("input_ui"),
   br(), br(),
   uiOutput("feedback_ui"),
   textOutput("status")
 )
-
 
 #' Server logic for Žodelis.
 #'
@@ -111,17 +109,35 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   values <- reactiveValues(
     guesses = list(),
-    solved = FALSE
+    solved = FALSE,
+    game_over = FALSE
   )
+
   # Pick a random target word
   data("words_lt", package = "zodelis")
   target_word <- sample(words_lt, 1)
+
+  output$input_ui <- renderUI({
+    if (!values$game_over) {
+      tagList(
+        textInput("guess", "Įveskite 5 raidžių žodį:", value = ""),
+        actionButton("submit", "Spėti")
+      )
+    } else {
+      tagList(
+        actionButton("restart", "Žaisti vėl"),
+        actionButton("exit", "Uždaryti žaidimą")
+      )
+    }
+  })
+
   observeEvent(input$submit, {
     req(input$guess)
     guess <- tolower(input$guess)
 
     # Check if the word is already solved or if there are no more guesses
     if (values$solved || length(values$guesses) >= 6) {
+      values$game_over <- TRUE
       output$status <- renderText(paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word))
       return()
     }
@@ -132,11 +148,6 @@ server <- function(input, output, session) {
       return()
     }
 
-    if (length(values$guesses) > 5) {
-      output$status <- renderText("Turite tik šešis spėjimus. Ate!")
-      return()
-    }
-
     if (!(guess %in% words_lt)) {
       output$status <- renderText("Tokio žodžio nėra. Bandykite kitą.")
       return()
@@ -144,6 +155,7 @@ server <- function(input, output, session) {
 
     if (guess == target_word) {
       values$solved <- TRUE
+      values$game_over <- TRUE
       shiny::showNotification("Teisingas atsakymas!", type = "message")
     }
 
@@ -156,13 +168,27 @@ server <- function(input, output, session) {
 
     output$status <- renderText(
       if (values$solved) {
-        "Teisingai!"
+        "Teisingai! Žaidimas baigtas."
       } else if (length(values$guesses) >= 6) {
+        values$game_over <- TRUE
         paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word)
       } else {
         "Bandykite dar kartą."
       }
     )
+  })
+
+  observeEvent(input$restart, {
+    values$guesses <- list()
+    values$solved <- FALSE
+    values$game_over <- FALSE
+    target_word <<- sample(words_lt, 1)
+    output$feedback_ui <- renderUI({})
+    output$status <- renderText("")
+  })
+
+  observeEvent(input$exit, {
+    stopApp()
   })
 }
 
