@@ -1,6 +1,8 @@
 ---
 title: "Žodelis"
-output: rmarkdown::html_vignette
+output:
+  html_document: default
+  pdf_document: default
 vignette: >
   %\VignetteIndexEntry{my-vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -50,8 +52,10 @@ zodelis::launch_zodelis()
 You have to submit a 5-letter lithuanian word as a guess.
 If your word does not contain 5 letters, you will receive this message:
 ![Word is not 5 letters](not 5 letters.png)
+
 If your word is not a valid word from the word list, you will receive this message:
 ![Not a valid word](non-word.png)
+
 If your word is from the word list, your guess will count and you will receive feedback, just like here:
 ![Valid guess](valid word.png)
 
@@ -62,11 +66,13 @@ You should continue guessing by taking feedback into account. A grey letter mean
 ### Step 3:
 If you manage to guess the word right, you will receive this message:
 ![Correct guess - a win!](win.png)
+
 You can restart the game and the "wins" counter will add a number to it.
 
 ### Step 4:
 However, if you lose, you will receive this message:
 ![6 incorrect guesses - a loss!](loss.png)
+
 You can restart the game, however, the "loss" counter will add a number to it as well.
 
 ### Step 5:
