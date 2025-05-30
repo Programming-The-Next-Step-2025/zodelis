@@ -70,7 +70,8 @@ create_feedback_tiles <- function(guess, target) {
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
-      .tile-row { display: flex; margin-bottom: 5px; }
+      body { text-align: center; }
+      .tile-row { display: flex; justify-content: center; margin-bottom: 5px; }
       .tile {
         width: 40px; height: 40px;
         border: 2px solid #999;
@@ -85,16 +86,26 @@ ui <- fluidPage(
       .green { background-color: #6aaa64; }
       .yellow { background-color: #c9b458; }
       .gray { background-color: #787c7e; }
+      #scoreboard {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+      }
     "))
   ),
-  titlePanel("Žodelis"),
-  textInput("guess", "Įveskite 5 raidžių žodį:", value = ""),
-  actionButton("submit", "Spėti"),
-  br(), br(),
-  uiOutput("feedback_ui"),
-  textOutput("status")
+  textOutput("scoreboard"),
+  div(
+    style = "display: inline-block; text-align: center; margin-top: 30px;",
+    titlePanel("Žodelis"),
+    uiOutput("input_ui"),
+    br(), br(),
+    uiOutput("feedback_ui"),
+    textOutput("status")
+  )
 )
-
 
 #' Server logic for Žodelis.
 #'
@@ -111,11 +122,38 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   values <- reactiveValues(
     guesses = list(),
-    solved = FALSE
+    solved = FALSE,
+    game_over = FALSE,
+    wins = 0,
+    losses = 0
   )
+
   # Pick a random target word
   data("words_lt", package = "zodelis")
   target_word <- sample(words_lt, 1)
+
+  output$input_ui <- renderUI({
+    if (!values$game_over) {
+      tagList(
+        textInput("guess", "Įveskite 5 raidžių žodį:", value = ""),
+        actionButton("submit", "Spėti")
+      )
+    } else {
+      tagList(
+        actionButton("restart", "Žaisti vėl"),
+        actionButton("exit", "Uždaryti žaidimą")
+      )
+    }
+  })
+
+  output$scoreboard <- renderText({
+    if (values$wins + values$losses > 0) {
+      paste0("Laimėta: ", values$wins, " | Pralaimėta: ", values$losses)
+    } else {
+      ""
+    }
+  })
+
   observeEvent(input$submit, {
     req(input$guess)
     guess <- tolower(input$guess)
@@ -126,19 +164,17 @@ server <- function(input, output, session) {
       return()
     }
 
-    if (length(values$guesses) > 5) {
-      output$status <- renderText("Turite tik šešis spėjimus. Ate!")
-      return()
-    }
-
-    if (!(guess %in% words_lt)) {
-      output$status <- renderText("Tokio žodžio nėra. Bandykite kitą.")
-      return()
-    }
-
     if (guess == target_word) {
       values$solved <- TRUE
+      values$game_over <- TRUE
+      values$wins <- values$wins + 1
       shiny::showNotification("Teisingas atsakymas!", type = "message")
+      output$status <- renderText("Teisingai! Žaidimas baigtas.")
+    } else if (!(guess %in% words_lt)) {
+      output$status <- renderText("Tokio žodžio nėra. Bandykite kitą.")
+      return()
+    } else {
+      output$status <- renderText("Bandykite dar kartą.")
     }
 
     # Store feedback
@@ -148,7 +184,26 @@ server <- function(input, output, session) {
       tagList(values$guesses)
     })
 
-    output$status <- renderText(if (values$solved) "Teisingai!" else "Bandykite dar kartą.")
+    # ✅ FIX: Check for game over after 6 guesses, only if not solved
+    if (length(values$guesses) >= 6 && !values$solved) {
+      values$game_over <- TRUE
+      values$losses <- values$losses + 1
+      output$status <- renderText(paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word))
+      return()
+    }
+  })
+
+  observeEvent(input$restart, {
+    values$guesses <- list()
+    values$solved <- FALSE
+    values$game_over <- FALSE
+    target_word <<- sample(words_lt, 1)
+    output$feedback_ui <- renderUI({})
+    output$status <- renderText("")
+  })
+
+  observeEvent(input$exit, {
+    stopApp()
   })
 }
 
