@@ -86,8 +86,17 @@ ui <- fluidPage(
       .green { background-color: #6aaa64; }
       .yellow { background-color: #c9b458; }
       .gray { background-color: #787c7e; }
+      #scoreboard {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+      }
     "))
   ),
+  textOutput("scoreboard"),
   div(
     style = "display: inline-block; text-align: center; margin-top: 30px;",
     titlePanel("Žodelis"),
@@ -114,7 +123,9 @@ server <- function(input, output, session) {
   values <- reactiveValues(
     guesses = list(),
     solved = FALSE,
-    game_over = FALSE
+    game_over = FALSE,
+    wins = 0,
+    losses = 0
   )
 
   # Pick a random target word
@@ -135,16 +146,17 @@ server <- function(input, output, session) {
     }
   })
 
+  output$scoreboard <- renderText({
+    if (values$wins + values$losses > 0) {
+      paste0("Laimėta: ", values$wins, " | Pralaimėta: ", values$losses)
+    } else {
+      ""
+    }
+  })
+
   observeEvent(input$submit, {
     req(input$guess)
     guess <- tolower(input$guess)
-
-    # Check if the word is already solved or if there are no more guesses
-    if (values$solved || length(values$guesses) >= 6) {
-      values$game_over <- TRUE
-      output$status <- renderText(paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word))
-      return()
-    }
 
     # Check word length and validity
     if (nchar(guess) != 5) {
@@ -152,15 +164,17 @@ server <- function(input, output, session) {
       return()
     }
 
-    if (!(guess %in% words_lt)) {
-      output$status <- renderText("Tokio žodžio nėra. Bandykite kitą.")
-      return()
-    }
-
     if (guess == target_word) {
       values$solved <- TRUE
       values$game_over <- TRUE
+      values$wins <- values$wins + 1
       shiny::showNotification("Teisingas atsakymas!", type = "message")
+      output$status <- renderText("Teisingai! Žaidimas baigtas.")
+    } else if (!(guess %in% words_lt)) {
+      output$status <- renderText("Tokio žodžio nėra. Bandykite kitą.")
+      return()
+    } else {
+      output$status <- renderText("Bandykite dar kartą.")
     }
 
     # Store feedback
@@ -170,16 +184,13 @@ server <- function(input, output, session) {
       tagList(values$guesses)
     })
 
-    output$status <- renderText(
-      if (values$solved) {
-        "Teisingai! Žaidimas baigtas."
-      } else if (length(values$guesses) >= 6) {
-        values$game_over <- TRUE
-        paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word)
-      } else {
-        "Bandykite dar kartą."
-      }
-    )
+    # ✅ FIX: Check for game over after 6 guesses, only if not solved
+    if (length(values$guesses) >= 6 && !values$solved) {
+      values$game_over <- TRUE
+      values$losses <- values$losses + 1
+      output$status <- renderText(paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word))
+      return()
+    }
   })
 
   observeEvent(input$restart, {
