@@ -120,6 +120,12 @@ server <- function(input, output, session) {
     req(input$guess)
     guess <- tolower(input$guess)
 
+    # Check if the word is already solved or if there are no more guesses
+    if (values$solved || length(values$guesses) >= 6) {
+      output$status <- renderText(paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word))
+      return()
+    }
+
     # Check word length and validity
     if (nchar(guess) != 5) {
       output$status <- renderText("Žodis turi būti iš 5 raidžių.")
@@ -148,7 +154,15 @@ server <- function(input, output, session) {
       tagList(values$guesses)
     })
 
-    output$status <- renderText(if (values$solved) "Teisingai!" else "Bandykite dar kartą.")
+    output$status <- renderText(
+      if (values$solved) {
+        "Teisingai!"
+      } else if (length(values$guesses) >= 6) {
+        paste0("Turite tik šešis spėjimus. Teisingas žodis buvo: ", target_word)
+      } else {
+        "Bandykite dar kartą."
+      }
+    )
   })
 }
 
