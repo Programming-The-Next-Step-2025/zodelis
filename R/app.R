@@ -184,7 +184,7 @@ server <- function(input, output, session) {
       tagList(values$guesses)
     })
 
-    # ✅ FIX: Check for game over after 6 guesses, only if not solved
+    # Check for game over after 6 guesses, only if not solved
     if (length(values$guesses) >= 6 && !values$solved) {
       values$game_over <- TRUE
       values$losses <- values$losses + 1
