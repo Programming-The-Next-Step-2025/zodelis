@@ -1,4 +1,0 @@
-export(start_game)
-export(check_length)
-export(show_feedback)
-import(shiny)
